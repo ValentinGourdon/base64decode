@@ -14,7 +14,8 @@ fn base64decode(input: String) -> String {
                 'a' ..= 'z' => ascii + LOWERCASE_OFFSET,
                 'A' ..= 'Z' => ascii + UPPERCASE_OFFSET,
                 '+' => 62,
-                '/' => 63
+                '/' => 63,
+                _   => panic!("Unknown character.")
             };
             format!("{:#08b}", convert)[2..].to_string()        //convert indices to binary format and remove the two first digits
         })
@@ -27,13 +28,12 @@ fn base64decode(input: String) -> String {
             usize::from_str_radix(&num_str, 2).unwrap() as u8   //convert the binary string into its u8 value
         })
         .collect::<Vec<_>>();
- 
-    let result = str::from_utf8(&result).unwrap();              //convert into UTF-8 string
-    return String::from(result);
+
+    return String::from(str::from_utf8(&result).unwrap());  //convert into UTF-8 string and return it
 }
- 
+
 fn main() {
-    let input = String::new();
+    let mut input = String::new();
     std::io::stdin().read_line(&mut input).unwrap();
     println!("Input: {}", input);
  
